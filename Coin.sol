@@ -23,8 +23,9 @@ contract Coin is ERC20, ERC20Burnable, Pausable, Ownable {
         _unpause();
     }
 
+    // To mint the coin on paying the price
     function mint(uint256 amount) public payable {
-        require(msg.value == price);
+        require(msg.value >= price, "Payment is less than the price!");
         _mint(msg.sender, amount);
     }
 
