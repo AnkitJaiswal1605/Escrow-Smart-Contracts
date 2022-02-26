@@ -6,8 +6,11 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract StableCoin is ERC20, ERC20Burnable, Pausable, Ownable {
-    constructor() ERC20("StableCoin", "STC") {}
+// This coin is pegged to ETH. Initially, it's pegged at 0.01 ETH per coin
+// It will be used to buy ERC 1155 token listed by the seller on the Escrow contract
+
+contract Coin is ERC20, ERC20Burnable, Pausable, Ownable {
+    constructor() ERC20("Coin", "COIN") {}
 
     function pause() public onlyOwner {
         _pause();
