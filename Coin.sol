@@ -10,6 +10,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // It will be used to buy ERC 1155 token listed by the seller on the Escrow contract
 
 contract Coin is ERC20, ERC20Burnable, Pausable, Ownable {
+    
+    uint public price = 0.01 ether;
+    
     constructor() ERC20("Coin", "COIN") {}
 
     function pause() public onlyOwner {
@@ -20,7 +23,8 @@ contract Coin is ERC20, ERC20Burnable, Pausable, Ownable {
         _unpause();
     }
 
-    function mint(uint256 amount) public {
+    function mint(uint256 amount) public payable {
+        require(msg.value == price);
         _mint(msg.sender, amount);
     }
 
