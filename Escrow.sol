@@ -6,14 +6,14 @@ import "./Token.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
 contract Escrow is ERC1155Holder {
-    StableCoin public stableCoin;
+    Coin public coin;
     Token public token;
     mapping(uint => uint) public itemPrice;
     mapping(uint => address) public seller;
     mapping(uint => uint) public buyDeadline;
 
-    constructor(StableCoin _stableCoin, Token _token) {
-        stableCoin = _stableCoin;
+    constructor(Coin _coin, Token _token) {
+        coin = _coin;
         token = _token;
     }
 
@@ -26,7 +26,7 @@ contract Escrow is ERC1155Holder {
 
     function buyToken(uint _id) public {
         require(block.timestamp <= buyDeadline[_id], "Deadline Passed!");
-        stableCoin.transferFrom(msg.sender, seller[_id], itemPrice[_id]);
+        coin.transferFrom(msg.sender, seller[_id], itemPrice[_id]);
         token.safeTransferFrom(address(this), msg.sender, _id, 1, "");
     }
 }
