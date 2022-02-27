@@ -1,22 +1,33 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./StableCoin.sol";
+import "./Coin.sol";
 import "./Token.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+
+// This contract will be used to list seller products as ERC 1155 tokens
+// Buyers will be able to pay for the tokens with the ERC 20 coins
 
 contract Escrow is ERC1155Holder {
     Coin public coin;
     Token public token;
+
+    // To map the price against the item
     mapping(uint => uint) public itemPrice;
+    
+    // To map the seller against the item's id number
     mapping(uint => address) public seller;
+
+    // To map the deadline for buying the item against the item's id number
     mapping(uint => uint) public buyDeadline;
 
+    // Defining the coin and token contracts in the constructor
     constructor(Coin _coin, Token _token) {
         coin = _coin;
         token = _token;
     }
 
+    // Token will be transferred to the contract and itemprice, seller and buyDeadline mappings will be set
     function listToken(uint _id, uint _itemPrice, uint listPeriodInHrs) public {
         token.safeTransferFrom(msg.sender, address(this), _id, 1, "");
         itemPrice[_id] = _itemPrice;
@@ -24,6 +35,8 @@ contract Escrow is ERC1155Holder {
         buyDeadline[_id] = block.timestamp + listPeriodInHrs*60*60;
     }
 
+    // Deadline will be checked and ERC 20 coins will be first transferred to the seller
+    // After these two steps, the token will be transferred to the buyer
     function buyToken(uint _id) public {
         require(block.timestamp <= buyDeadline[_id], "Deadline Passed!");
         coin.transferFrom(msg.sender, seller[_id], itemPrice[_id]);
