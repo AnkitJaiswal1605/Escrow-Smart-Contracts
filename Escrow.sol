@@ -43,3 +43,18 @@ contract Escrow is ERC1155Holder {
         token.safeTransferFrom(address(this), msg.sender, _id, 1, "");
     }
 }
+
+/* Alternatives:
+** In buy token function, instead of transferring the coins and token to seller and buyer respectively,
+   we could have used a mapping to store the tokens and coins for the buyer and seller to claim whenever they want.
+   Just that, it would have cost more gas.
+
+** We could also give names and symbols to each token, so that users could identify tokens easily instead of using ID numbers.
+*/
+
+/* Security considerations:
+
+** Re-entrancy:
+   In the buyToken function, it's important that coins are transferred to seller first before transferring token to buyer.
+   Otherwise, a hacker can use a fallback function in a smart contract 
+*/
