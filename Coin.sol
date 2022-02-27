@@ -29,6 +29,11 @@ contract Coin is ERC20, ERC20Burnable, Pausable, Ownable {
         _mint(msg.sender, amount);
     }
 
+    // To update the price of the coin (only owner of the contract can update it)
+    function setPrice(uint newPrice) public onlyOwner {
+        price = newPrice;
+    }
+
     function _beforeTokenTransfer(address from, address to, uint256 amount)
         internal
         whenNotPaused
