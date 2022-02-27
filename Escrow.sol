@@ -56,5 +56,11 @@ contract Escrow is ERC1155Holder {
 
 ** Re-entrancy:
    In the buyToken function, it's important that coins are transferred to seller first before transferring token to buyer.
-   Otherwise, a hacker can use a fallback function in a smart contract 
+   Otherwise, a hacker can use a fallback function in a smart contract to take advantage of it.
+   Alternatively, we could lock the function till it's complete.
+
+** Overflow and underflow:
+   It's automatically taken care of in solidity versions >8.0,
+   otherwise SafeMath library should be used.
+   
 */
