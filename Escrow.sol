@@ -62,5 +62,7 @@ contract Escrow is ERC1155Holder {
 ** Overflow and underflow:
    It's automatically taken care of in solidity versions >8.0,
    otherwise SafeMath library should be used.
-   
+
+** Certain functions in the ERC 20 and ERC 1155 contracts can be accessed by only owner by using the Ownable contract.
+
 */
