@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 
+// This token will be used to represent an item to be sold by the seller
+
 contract Token is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
 
     uint public id;
@@ -25,6 +27,7 @@ contract Token is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
         _unpause();
     }
 
+    // To mint the token to be sold
     function mint() public
     {
         _mint(msg.sender, id, 1, "");
